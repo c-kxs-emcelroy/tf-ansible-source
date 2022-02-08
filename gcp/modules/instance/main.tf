@@ -6,7 +6,7 @@ resource "random_id" "suffix" {
 resource "google_compute_instance" "example_instance" {
   name         = "${var.prefix}-instance-${random_id.suffix.hex}"
   machine_type = var.instance_type
-  zone         = "${var.region}-a"
+  zone         = var.zone
 
   metadata = {
     ssh-keys = "${var.admin_user}:${var.admin_key_public}"
