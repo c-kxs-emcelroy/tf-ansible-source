@@ -1,4 +1,10 @@
 # Generate a random suffix to suffix resources with
+data "azurerm_key_vault" "disk_vault" {
+  name                = var.keyvault_name
+  resource_group_name = var.resource_group_name
+
+}
+
 resource "random_id" "suffix" {
   byte_length = 4
 }
@@ -51,4 +57,29 @@ resource "azurerm_linux_virtual_machine" "example" {
     sku       = "7_9-gen2"
     version   = "latest"
   }
+}
+
+
+
+resource "azurerm_virtual_machine_extension" "linux-ade" {
+    name                              =     "AzureDiskEncryption"
+    virtual_machine_id                =     azurerm_linux_virtual_machine.example.id
+    publisher                         =     "Microsoft.Azure.Security"
+    type                              =     "AzureDiskEncryptionForLinux"
+    type_handler_version              =     "1.1"
+    auto_upgrade_minor_version        =     true
+
+    settings = <<SETTINGS
+    {
+        "EncryptionOperation"         :     "EnableEncryption",
+        "KeyVaultURL"                 :     "${azurerm_key_vault.disk_vault.vault_uri}",
+        "KeyVaultResourceId"          :     "${azurerm_key_vault.kv.id}",
+        "KeyEncryptionKeyURL"         :     "${azurerm_key_vault_key.kv.id}",
+        "KekVaultResourceId"          :     "${azurerm_key_vault.kv.id}",
+        "KeyEncryptionAlgorithm"      :     "RSA-OAEP",
+        "VolumeType"                  :     "All"
+    }
+    SETTINGS
+
+    depends_on                        =     [azurerm_linux_virtual_machine.vm]
 }

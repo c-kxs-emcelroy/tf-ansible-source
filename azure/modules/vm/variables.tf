@@ -54,3 +54,8 @@ variable "tenant_id" {
   type        = string
   description = "Azure Tenant ID used for authentication"
 }
+
+variable "keyvault_name" {
+  type        = string
+  description = "name of key vault to use for disk encryption"
+}
