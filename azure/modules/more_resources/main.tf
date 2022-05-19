@@ -22,7 +22,6 @@ resource "azurerm_key_vault" "example_keyvault" {
       "Decrypt",
       "Delete",
       "Encrypt",
-      "Get",
       "Import",
       "List",
       "Purge",
@@ -36,11 +35,35 @@ resource "azurerm_key_vault" "example_keyvault" {
     ]
 
     secret_permissions = [
+      "Backup",
+      "Delete",
       "Get",
+      "List",
+      "Purge",
+      "Recover",
+      "Restore",
+      "Set"
     ]
 
     storage_permissions = [
       "Get",
     ]
   }
+}
+
+resource "tls_private_key" "example_ssh" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+resource "azurerm_key_vault_secret" "ssh_key" {
+  name = "vm_key"
+  value = tls_private_key.example_ssh.private_key_openssh
+  key_vault_id = azurerm_key_vault.example_keyvault
+  
+}
+
+resource "azurerm_key_vault_secret" "ssh_public_key" {
+  name = "vm_public_key"
+  value = tls_private_key.example_ssh.public_key_openssh
+  key_vault_id = azurerm_key_vault.example_keyvault
 }
