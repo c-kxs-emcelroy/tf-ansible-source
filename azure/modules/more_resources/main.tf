@@ -63,7 +63,7 @@ resource "azurerm_key_vault_secret" "ssh_key" {
 }
 
 resource "azurerm_key_vault_secret" "ssh_public_key" {
-  name = "vm_public_key"
+  name = "vmpublickey"
   value = tls_private_key.example_ssh.public_key_openssh
   key_vault_id = azurerm_key_vault.example_keyvault
 }
