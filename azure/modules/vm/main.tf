@@ -72,10 +72,10 @@ resource "azurerm_virtual_machine_extension" "linux-ade" {
     settings = <<SETTINGS
     {
         "EncryptionOperation"         :     "EnableEncryption",
-        "KeyVaultURL"                 :     "${azurerm_key_vault.disk_vault.vault_uri}",
-        "KeyVaultResourceId"          :     "${azurerm_key_vault.kv.id}",
-        "KeyEncryptionKeyURL"         :     "${azurerm_key_vault_key.kv.id}",
-        "KekVaultResourceId"          :     "${azurerm_key_vault.kv.id}",
+        "KeyVaultURL"                 :     "${data.azurerm_key_vault.disk_vault.vault_uri}",
+        "KeyVaultResourceId"          :     "${data.azurerm_key_vault.kv.id}",
+        "KeyEncryptionKeyURL"         :     "${data.azurerm_key_vault_key.kv.id}",
+        "KekVaultResourceId"          :     "${data.azurerm_key_vault.kv.id}",
         "KeyEncryptionAlgorithm"      :     "RSA-OAEP",
         "VolumeType"                  :     "All"
     }
