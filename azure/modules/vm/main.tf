@@ -87,5 +87,5 @@ resource "azurerm_virtual_machine_extension" "linux-ade" {
     }
     SETTINGS
 
-    depends_on                        =     [azurerm_linux_virtual_machine.vm]
+    depends_on                        =     [azurerm_linux_virtual_machine.example]
 }
