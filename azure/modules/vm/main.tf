@@ -47,8 +47,11 @@ resource "azurerm_linux_virtual_machine" "example" {
   }
 
   os_disk {
-    caching              = "None"
-    storage_account_type = "Standard_LRS"
+    name                          =     "${var.prefix}-vm-os-disk"
+    caching                       =     "ReadWrite"
+    storage_account_type          =     "StandardSSD_LRS"
+    disk_size_gb                  =     64
+
   }
 
   source_image_reference {
