@@ -1,4 +1,4 @@
-variable "region" {
+variable "location" {
   type        = string
   description = "Azure Region to deploy resources into"
   default     = "West US 2"

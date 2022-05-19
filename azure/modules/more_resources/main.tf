@@ -2,7 +2,7 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "example_keyvault" {
   name                        = "${var.prefix}-keyvault"
-  location                    = var.region
+  location                    = var.location
   resource_group_name         = var.resource_group_name
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id
