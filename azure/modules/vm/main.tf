@@ -59,7 +59,13 @@ resource "azurerm_linux_virtual_machine" "example" {
   }
 }
 
-
+resource "azurerm_key_vault_key" "disk_key" {
+    name                            =       "${var.prefix}-vm-ade-kek"
+    key_vault_id                    =       data.azurerm_key_vault.disk_vault.id
+    key_type                        =       "RSA"
+    key_size                        =       2048
+    key_opts                        =       ["decrypt", "encrypt", "sign", "unwrapKey", "verify", "wrapKey",]
+}
 
 resource "azurerm_virtual_machine_extension" "linux-ade" {
     name                              =     "AzureDiskEncryption"
@@ -73,9 +79,9 @@ resource "azurerm_virtual_machine_extension" "linux-ade" {
     {
         "EncryptionOperation"         :     "EnableEncryption",
         "KeyVaultURL"                 :     "${data.azurerm_key_vault.disk_vault.vault_uri}",
-        "KeyVaultResourceId"          :     "${data.azurerm_key_vault.kv.id}",
-        "KeyEncryptionKeyURL"         :     "${data.azurerm_key_vault_key.kv.id}",
-        "KekVaultResourceId"          :     "${data.azurerm_key_vault.kv.id}",
+        "KeyVaultResourceId"          :     "${data.azurerm_key_vault.disk_vault.id}",
+        "KeyEncryptionKeyURL"         :     "${azurerm_key_vault_key.disk_key.id}",
+        "KekVaultResourceId"          :     "${data.azurerm_key_vault.disk_vault.id}",
         "KeyEncryptionAlgorithm"      :     "RSA-OAEP",
         "VolumeType"                  :     "All"
     }
