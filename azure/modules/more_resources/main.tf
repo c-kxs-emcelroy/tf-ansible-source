@@ -17,6 +17,22 @@ resource "azurerm_key_vault" "example_keyvault" {
 
     key_permissions = [
       "Get",
+      "Backup",
+      "Create",
+      "Decrypt",
+      "Delete",
+      "Encrypt",
+      "Get",
+      "Import",
+      "List",
+      "Purge",
+      "Recover",
+      "Restore",
+      "Sign",
+      "UnwrapKey",
+      "Update",
+      "Verify",
+      "WrapKey"
     ]
 
     secret_permissions = [
