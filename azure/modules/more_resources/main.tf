@@ -56,7 +56,7 @@ resource "tls_private_key" "example_ssh" {
   rsa_bits  = 4096
 }
 resource "azurerm_key_vault_secret" "ssh_key" {
-  name = "vm_key"
+  name = "vmkey"
   value = tls_private_key.example_ssh.private_key_openssh
   key_vault_id = azurerm_key_vault.example_keyvault
   
